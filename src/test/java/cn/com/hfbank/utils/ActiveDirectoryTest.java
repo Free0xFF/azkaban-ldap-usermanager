@@ -6,34 +6,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ActiveDirectoryTest {
-	
+
 	private ActiveDirectory ad;
-	
+
 	@Before
 	public void setUp() {
 		ad = new ActiveDirectory();
 	}
-	
+
 	@Test
 	public void testBuildDomainBase() {
 		String domain = null;
 		assertNotNull(ad.buildDomainBase(domain));
 		assertEquals("", ad.buildDomainBase(domain));
-		
+
 		domain = "";
 		assertNotNull(ad.buildDomainBase(domain));
 		assertEquals("", ad.buildDomainBase(domain));
-		
+
 		domain = "example";
 		assertEquals("DC=EXAMPLE", ad.buildDomainBase(domain));
-		
+
 		domain = "example.com";
 		assertEquals("DC=EXAMPLE,DC=COM", ad.buildDomainBase(domain));
-		
+
 		domain = "example.com.cn";
 		assertEquals("DC=EXAMPLE,DC=COM,DC=CN", ad.buildDomainBase(domain));
 	}
-	
+
 	@Test
 	public void testBuildFilter() {
 		String baseFilter = "(&((&(objectCategory=Person)(objectClass=User)))";
