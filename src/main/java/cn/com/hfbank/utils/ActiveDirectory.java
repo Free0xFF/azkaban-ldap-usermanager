@@ -29,7 +29,7 @@ import javax.naming.directory.SearchResult;
  */
 public class ActiveDirectory {
 	// Loggerge
-	private static final Logger LOG = Logger.getLogger(ActiveDirectory.class.getName());
+	protected static final Logger LOG = Logger.getLogger(ActiveDirectory.class.getName());
 
 	// final string
 	protected final String CONNECTION_TIMEOUT = "com.sun.jndi.ldap.connect.timeout";
