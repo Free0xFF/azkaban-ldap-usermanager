@@ -19,12 +19,12 @@ import cn.com.hfbank.utils.ActiveDirectory;
 
 public class AdLdapUserManager implements UserManager {
 	protected static final Logger LOG = Logger.getLogger(AdLdapUserManager.class.getName());
-	public static final String AD_HOST = "user.manager.host";
-	public static final String AD_PORT = "user.manager.port";
-	public static final String AD_DOMAIN = "user.manager.domain";
-	public static final String AD_BIND_ACCOUNT = "user.manager.bindAccount";
-	public static final String AD_BIND_PASSWORD = "user.manager.bindPassword";
-	public static final String AD_ALLOWEDGROUPS = "user.manager.allowedGroups";
+	public static final String AD_HOST = "user.manager.ldap.host";
+	public static final String AD_PORT = "user.manager.ldap.port";
+	public static final String AD_DOMAIN = "user.manager.ldap.domain";
+	public static final String AD_BIND_ACCOUNT = "user.manager.ldap.bindAccount";
+	public static final String AD_BIND_PASSWORD = "user.manager.ldap.bindPassword";
+	public static final String AD_ALLOWEDGROUPS = "user.manager.ldap.allowedGroups";
 	private String adHost;
 	private int adPort;
 	private String domain;
