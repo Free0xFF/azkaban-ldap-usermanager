@@ -24,6 +24,9 @@ dependencies {
     
     // https://mvnrepository.com/artifact/com.linkedin.azkaban/azkaban
 	compile group: 'com.linkedin.azkaban', name: 'azkaban', version: '2.5.0'
+	
+	//apache-directory-api for OpenLDAP
+	compile group: 'org.apache.directory.api', name: 'api-all', version: '1.0.0-M31'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
