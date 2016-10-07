@@ -18,7 +18,7 @@ import cn.com.hfbank.utils.LdapDriver;
 import cn.com.hfbank.utils.LdapUtil;
 
 public class OpenldapUserManager implements UserManager {
-	//connection params
+	// connection params
 	protected static final Logger LOG = Logger.getLogger(AdLdapUserManager.class.getName());
 	public static final String LDAP_HOST = "user.manager.ldap.host";
 	public static final String LDAP_PORT = "user.manager.ldap.port";
@@ -33,24 +33,23 @@ public class OpenldapUserManager implements UserManager {
 	private String nameAlias;
 	private String emailAlias;
 	private String ldapType;
-	
-	//property name
+
+	// property name
 	public static final String LDAP_NAME_ALIAS = "user.manager.ldap.name.alias";
 	public static final String LDAP_EMAIL_ALIAS = "user.manager.ldap.email.alias";
-	
-	//groups
+
+	// groups
 	public static final String LDAP_ALLOWEDGROUPS = "user.manager.ldap.allowedGroups";
 	private List<String> allowedGroups;
-	
-	//ldap product name
+
+	// ldap product name
 	public static final String LDAP_TYPE = "user.manager.ldap.type";
-	
-	//drivers
+
+	// drivers
 	LdapDriver driver = null;
-	
-	
+
 	public OpenldapUserManager(Props props) {
-		//get params from config
+		// get params from config
 		ldapHost = props.getString(LDAP_HOST);
 		ldapPort = props.getInt(LDAP_PORT);
 		domain = LdapUtil.buildDomainBase(props.getString(LDAP_DOMAIN));
@@ -62,33 +61,33 @@ public class OpenldapUserManager implements UserManager {
 		ldapType = props.getString(LDAP_TYPE);
 		driver = new LdapDriver(ldapHost, ldapPort);
 	}
-	
+
 	@Override
 	public User getUser(String username, String password) throws UserManagerException {
-		if(username == null || username.trim().isEmpty()) {
+		if (username == null || username.trim().isEmpty()) {
 			throw new UserManagerException("Username is empty!");
 		} else if (password == null || password.trim().isEmpty()) {
 			throw new UserManagerException("Password is empty!");
 		}
-		
+
 		try {
 			driver.bind(bindUser, bindPwd);
-			
+
 			EntryCursor cursor = driver.searchUserByName(domain, nameAlias, username);
-			if(!cursor.next()) {
+			if (!cursor.next()) {
 				throw new UserManagerException("No user found!");
 			}
-			
+
 			final Entry entry = cursor.get();
-			if(cursor.next()) {
+			if (cursor.next()) {
 				throw new UserManagerException("More than one user found!");
 			}
-			
+
 			String userDn = entry.getDn().toString();
-			if(!LdapUtil.memberOfAllowedGroups(userDn, allowedGroups, ldapType)) {
+			if (!LdapUtil.memberOfAllowedGroups(userDn, allowedGroups, ldapType)) {
 				throw new UserManagerException("User is not member of allowed groups.");
 			}
-			
+
 			driver.bind(userDn, password);
 			String email = entry.get(emailAlias).getString();
 			User user = new User(username);
@@ -96,11 +95,11 @@ public class OpenldapUserManager implements UserManager {
 			user.addRole("Admin");
 			driver.unBind();
 			return user;
-			
+
 		} catch (LdapException e) {
-			throw new UserManagerException("LDAP error!",e);
+			throw new UserManagerException("LDAP error!", e);
 		} catch (CursorException e) {
-			throw new UserManagerException("Cursor error!",e);
+			throw new UserManagerException("Cursor error!", e);
 		}
 	}
 
@@ -109,22 +108,22 @@ public class OpenldapUserManager implements UserManager {
 		try {
 			driver.bind(bindUser, bindPwd);
 			EntryCursor cursor = driver.searchUserByName(domain, nameAlias, username);
-			if(!cursor.next()) {
+			if (!cursor.next()) {
 				return false;
 			}
-			
+
 			final Entry entry = cursor.get();
-			if(cursor.next()) {
+			if (cursor.next()) {
 				return false;
 			}
-			
+
 			String userDn = entry.getDn().toString();
-			if(!LdapUtil.memberOfAllowedGroups(userDn, allowedGroups, ldapType)) {
+			if (!LdapUtil.memberOfAllowedGroups(userDn, allowedGroups, ldapType)) {
 				return false;
 			}
-			
+
 			return true;
-			
+
 		} catch (LdapException e) {
 			return false;
 		} catch (CursorException e) {

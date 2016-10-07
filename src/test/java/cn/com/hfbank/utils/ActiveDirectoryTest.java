@@ -36,7 +36,6 @@ public class ActiveDirectoryTest {
 
 	@Test
 	public void testBuildFilter() {
-		String baseFilter = "(&((&(objectCategory=Person)(objectClass=User)))";
 		String emailBaseFilter = "(&((&(objectCategory=Person)(objectClass=User)))(mail=test@example.com))";
 		String accountBaseFilter = "(&((&(objectCategory=Person)(objectClass=User)))(samaccountname=test))";
 		assertEquals(emailBaseFilter, ad.buildFilter(ad.BASE_FILTER, "email", "test@example.com"));

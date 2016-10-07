@@ -10,52 +10,55 @@ import org.apache.directory.ldap.client.api.LdapNetworkConnection;
 
 public class LdapDriver {
 	private LdapConnection connection = null;
-	
+
 	public LdapDriver(String ldapHost, int ldapPort) {
 		connection = createConnection(ldapHost, ldapPort);
 	}
-	
+
 	public LdapConnection createConnection(String ldapHost, int ldapPort) {
-		if(connection == null) {
-			synchronized(LdapDriver.class) {
-				if(connection == null) {
+		if (connection == null) {
+			synchronized (LdapDriver.class) {
+				if (connection == null) {
 					connection = new LdapNetworkConnection(ldapHost, ldapPort);
 				}
 			}
 		}
 		return connection;
 	}
-	
+
 	public void bind(String bindUser, String passwd) throws LdapException {
 		connection.bind(bindUser, passwd);
 	}
-	
+
 	/**
 	 * 
-	 * @param baseDn			The domain, like "dc=test,dc=com"
-	 * @param nameProperty		May be "uid",maybe "cn", maybe "samaccountname" and so on
-	 * @param searchValue		The value corresponding to nameProperty
-	 * @return	cursor			EntryCursor
+	 * @param baseDn
+	 *            The domain, like "dc=test,dc=com"
+	 * @param nameProperty
+	 *            May be "uid",maybe "cn", maybe "samaccountname" and so on
+	 * @param searchValue
+	 *            The value corresponding to nameProperty
+	 * @return cursor EntryCursor
 	 * @throws LdapException
 	 */
 	public EntryCursor searchUserByName(String baseDn, String nameProperty, String searchValue) throws LdapException {
 		String filter = "(" + nameProperty + "=" + searchValue + ")";
-		EntryCursor cursor = connection.search( baseDn, filter, SearchScope.SUBTREE);
+		EntryCursor cursor = connection.search(baseDn, filter, SearchScope.SUBTREE);
 		return cursor;
 	}
-	
+
 	public void unBind() throws LdapException {
 		connection.unBind();
 	}
-	
+
 	public void closeLdapConnection() throws IOException {
 		connection.close();
 	}
-	
+
 	public void setConnection(LdapConnection connection) {
 		this.connection = connection;
 	}
-	
+
 	public LdapConnection getConnection() {
 		return this.connection;
 	}

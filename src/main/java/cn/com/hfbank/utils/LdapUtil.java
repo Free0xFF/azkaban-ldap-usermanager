@@ -10,7 +10,8 @@ public class LdapUtil {
 	 * 
 	 * @param domain
 	 *            such as "example.com"
-	 * @return domainBase if domain is null or empty, return "",otherwise such as "DC=EXAMPLE,DC=COM"
+	 * @return domainBase if domain is null or empty, return "",otherwise such
+	 *         as "DC=EXAMPLE,DC=COM"
 	 */
 	public static String buildDomainBase(String domain) {
 		if (domain == null || domain.isEmpty()) {
@@ -26,38 +27,42 @@ public class LdapUtil {
 		}
 		return domainBase;
 	}
-	
+
 	/**
 	 * Check whether the user is part of allowed groups
 	 * 
-	 * @param dn				The entry,for example "cn=Gui Yongmao,ou=test,ou=Users,dc=test,dc=com"
-	 * @param allowedGroups		The allowed groups defined by config file
-	 * @param type				Corresponding ldap production, supporting Microsoft AD, OpenLDAP at present
-	 * @return					Return true if belong to,otherwise false
+	 * @param dn
+	 *            The entry,for example
+	 *            "cn=Gui Yongmao,ou=test,ou=Users,dc=test,dc=com"
+	 * @param allowedGroups
+	 *            The allowed groups defined by config file
+	 * @param type
+	 *            Corresponding ldap production, supporting Microsoft AD,
+	 *            OpenLDAP at present
+	 * @return Return true if belong to,otherwise false
 	 */
 	public static boolean memberOfAllowedGroups(String dn, List<String> allowedGroups, String type) {
-		if(allowedGroups == null || allowedGroups.size() == 0) {
+		if (allowedGroups == null || allowedGroups.size() == 0) {
 			return true;
 		}
-		
+
 		String base = null;
-		if(type == null || type == "ActiveDirectory") {
+		if (type == null || type == "ActiveDirectory") {
 			base = "CN=";
-		}
-		else if(type == "OpenLDAP") {
+		} else if (type == "OpenLDAP") {
 			base = "OU=";
 		}
-		
+
 		String userDn = dn.toUpperCase();
 		for (String group : allowedGroups) {
-			String groupEntry = base+group;
+			String groupEntry = base + group;
 			if (userDn.contains(groupEntry.toUpperCase())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Parse group name from a string
 	 * 
@@ -76,7 +81,7 @@ public class LdapUtil {
 				sb.append(ch);
 			}
 		}
-		if(sb.toString().length() != 0) {
+		if (sb.toString().length() != 0) {
 			groups.add(sb.toString());
 		}
 		return groups;
