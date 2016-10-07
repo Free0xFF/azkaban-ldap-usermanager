@@ -34,7 +34,7 @@ public class ActiveDirectory {
 	// final string
 	protected final String CONNECTION_TIMEOUT = "com.sun.jndi.ldap.connect.timeout";
 	protected final String BASE_FILTER = "(&((&(objectCategory=Person)(objectClass=User)))";
-	protected final String[] RETURN_ATTRIBUTES = { "sAMAccountName", "givenName", "cn", "mail", "memberof" };
+	protected final String[] RETURN_ATTRIBUTES = { "sAMAccountName", "cn", "mail", "memberof" };
 
 	// private variables
 	private Properties properties;

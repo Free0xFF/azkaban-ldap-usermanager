@@ -30,6 +30,14 @@ public class LdapDriver {
 		connection.bind(bindUser, passwd);
 	}
 	
+	/**
+	 * 
+	 * @param baseDn			The domain, like "dc=test,dc=com"
+	 * @param nameProperty		May be "uid",maybe "cn", maybe "samaccountname" and so on
+	 * @param searchValue		The value corresponding to nameProperty
+	 * @return	cursor			EntryCursor
+	 * @throws LdapException
+	 */
 	public EntryCursor searchUserByName(String baseDn, String nameProperty, String searchValue) throws LdapException {
 		String filter = "(" + nameProperty + "=" + searchValue + ")";
 		EntryCursor cursor = connection.search( baseDn, filter, SearchScope.SUBTREE);

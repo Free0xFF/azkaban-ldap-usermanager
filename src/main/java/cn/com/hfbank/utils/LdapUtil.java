@@ -65,10 +65,10 @@ public class LdapUtil {
 	 *            A String like "admin,system",which were separated by commas
 	 * @return groups A List contains many group names
 	 */
-	public static List<String> getAllowedGroups(String adAllowedGroups) {
+	public static List<String> getAllowedGroups(String allowedGroups) {
 		List<String> groups = new ArrayList<String>();
 		StringBuffer sb = new StringBuffer();
-		for (char ch : adAllowedGroups.toCharArray()) {
+		for (char ch : allowedGroups.toCharArray()) {
 			if (ch == ',') {
 				groups.add(sb.toString());
 				sb.delete(0, sb.length());
