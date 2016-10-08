@@ -1,4 +1,4 @@
-package cn.com.hfbank.utils;
+package com.hfbank.azkaban.user.utils;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class LdapDriverTest {
 
 	@Test
 	public void testCreateConnection() {
-		driver = new LdapDriver("192.168.137.201", 389);
+		driver = new LdapDriver("192.168.137.200", 389);
 		assertNotNull(driver.getConnection());
 		assertFalse(driver.getConnection().isConnected());
 		assertFalse(driver.getConnection().isAuthenticated());
